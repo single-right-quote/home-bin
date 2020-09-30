@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS1
+
+importas HOME HOME
+s6-sudo -- ${HOME}/service/s6-sudo-ssh/sock
+	${@}

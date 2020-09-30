@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS1
+
+forx f { ${@} }
+	importas -iu f f
+	foreground { echo ==> ${f} <== }
+	cat ${f}

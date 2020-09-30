@@ -1,0 +1,16 @@
+#!/bin/execlineb -WS1
+# mpvc - control an mpv(1) listening on the socket $tmp/mpv
+#	think mpd(1) but with video and stream support
+# BUGS
+#	- mpv's IPC is insecure by design
+#	- a socket might be overkill?
+# TODO
+#	- create a better interface than mpv's
+
+importas -u HOME HOME
+pipeline {
+	pipeline { echo ${@} }
+	read
+}
+	fdmove -c 1 2
+	nc -NU ${HOME}/service/mpv/ipc.sock

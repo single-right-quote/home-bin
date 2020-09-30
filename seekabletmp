@@ -1,0 +1,9 @@
+#!/bin/execlineb -WS1
+
+importas TMPDIR TMPDIR
+backtick -in file { s6-uniquename ${TMPDIR}/ }
+importas -iu file file
+
+seekablepipe
+	${file}
+	${@}

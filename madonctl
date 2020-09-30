@@ -1,0 +1,20 @@
+#!/bin/execlineb -WS1
+
+multisubstitute {
+	importas -iu fedi_account fedi_account
+	importas -D "/tmp" TMPDIR TMPDIR
+}
+define fifo ${TMPDIR}/madonctl.yaml
+foreground {
+	redirfd -w 2 /dev/null
+	mkfifo -m0600 ${fifo}
+}
+# /usr/local/bin/background is ptyget background
+/bin/background {
+	redirfd -w 1 ${fifo}
+	store show madonctl/${fedi_account}
+}
+torsocks
+/usr/bin/madonctl
+	--config ${fifo}
+	${@}

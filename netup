@@ -1,0 +1,15 @@
+#!/bin/execlineb -WP
+
+sv u
+	dhcpcd
+	privoxy
+	tor
+	ntpd
+	tswordfs-vpn
+	ii
+	ii2
+	ircmsg
+	ircmsg2
+	kver
+	sfeed
+	dnscache

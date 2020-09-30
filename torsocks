@@ -1,0 +1,15 @@
+#!/bin/execlineb -WS1
+# torsocks(1) for kernels that "Operation not supported" on getcap(8)
+# does not support $ . torsocks [ on | off ]
+
+export LD_PRELOAD /usr/lib/torsocks/libtorsocks.so
+
+backtick -in prog { which ${1} }
+importas -iu prog prog
+
+ifelse { s6-test -u ${prog} } {
+	error torsocks: fatal: cannot torify ${1}: is setuid
+} ifelse { s6-test -g ${prog} } {
+	error torsocks: fatal: cannot torify ${1}: is setgid
+}
+	${@}

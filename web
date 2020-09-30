@@ -1,0 +1,45 @@
+#!/bin/execlineb -W
+
+elgetopt n
+elgetpositionals -P1
+emptyenv -P
+
+foreground {
+	if -n { svup tor-browser }
+		foreground { sv o tor-browser }
+		s6-sleep 3
+}
+
+backtick -D "--new-tab" argument_to_firefox {
+	if { s6-test -v ELGETOPT_n }
+		s6-echo -n -- "--new-window"
+}
+importas -u argument_to_firefox argument_to_firefox
+
+forx -p uri { ${@} }
+	importas -iu uri uri
+
+	backtick -D ${uri} uri_final {
+		if { s6-test -f "\\\\"${uri} }
+			backtick -in uri_encoded_pwd {
+				pipeline { pwd }
+				sed "s/ /%20/g"
+			}
+			backtick -in uri_encoded_uri {
+				pipeline { s6-echo -n -- ${uri} }
+				sed "s/ /%20/g"
+			}
+			multisubstitute {
+				importas -iu uri_encoded_pwd uri_encoded_pwd
+				importas -iu uri_encoded_uri uri_encoded_uri
+			}
+			
+			foreground { s6-echo -n -- file:// }
+			cleanname -d ${uri_encoded_pwd} ${uri_encoded_uri}
+	}
+	importas -iu uri_final uri_final
+
+	foreground { s6-echo -- p ${uri_final} }
+	firefox
+		${argument_to_firefox}
+		${uri_final}

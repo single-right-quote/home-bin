@@ -1,0 +1,6 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+
+torsocks
+/bin/puddletag ${HOME}/song

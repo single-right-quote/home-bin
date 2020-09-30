@@ -1,0 +1,23 @@
+#!/bin/execlineb -W
+# ffifo: mkfifo(1) but it clobbers files
+# usage: ffifo [-m MODE] FILE [...]
+
+elgetopt m:
+elgetpositionals
+emptyenv -P
+
+forx f { ${@} }
+	importas -iu f f
+	ifelse { s6-test -e ${f} } {
+		if { rm ${f} }
+		ifelse { s6-test -v ELGETOPT_m } {
+			importas -i mode ELGETOPT_m
+			mkfifo -m${mode} ${f}
+		}
+			mkfifo ${f}
+	}
+		ifelse { s6-test -v ELGETOPT_m } {
+			importas -i mode ELGETOPT_m
+			mkfifo -m${mode} ${f}
+		}
+			mkfifo ${f}

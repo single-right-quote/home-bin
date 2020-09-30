@@ -1,0 +1,8 @@
+#!/bin/execlineb -WS0
+
+importas TMPDIR TMPDIR
+cd ${TMPDIR}
+ffmpeg
+	-i untitled.wav
+	-c:a
+	libopus ${@}

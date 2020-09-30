@@ -1,0 +1,29 @@
+#!/bin/execlineb -WS0
+
+importas TMPDIR TMPDIR
+
+foreground { sv u mpv }
+foreground {
+	loopwhilex -x0
+		s6-test -S ${TMPDIR}/mpv-eds.sock
+}
+
+# basically try youtube-dl -o- $vid | mpv -
+# bug: playback fails on seek, even with --force-seekable
+forx v { ${@} }
+	importas -iu v v
+	backtick -in f { s6-uniquename ${TMPDIR}/downloads/ }
+	importas -i fifo f
+
+	if { mkfifo -m 0600 ${fifo} }
+	if { mkdir -p ${TMPDIR}/ytdlq }
+
+	foreground {
+		export NQDIR ${TMPDIR}/ytdlq
+		emptyenv -c
+		nq -cq
+		redirfd -w 1 ${fifo}
+		youtube-dl -o- ${v}
+	}
+	emptyenv -c
+	mpvq ${fifo}

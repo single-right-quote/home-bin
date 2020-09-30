@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS0
+
+backtick -in PWD { pwd }
+s6-sudo /var/service/s6-sudo-su/sock
+${@}

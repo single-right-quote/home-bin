@@ -1,0 +1,18 @@
+#!/bin/execlineb -WS0
+
+importas HOME HOME
+if {
+	pipeline {
+		madonctl
+			-oplain
+			account
+				notifications
+				--list
+				${@}
+	}
+	sed "/^-/i\\\n"
+}
+cd ${HOME}/service/boop/log/nq
+nq -cq
+	ptl
+		xsetroot -solid "#4d4d4d"

@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+pipeline { xclip -o -r -selection clipboard }
+s6-sleep -m 500
+	type

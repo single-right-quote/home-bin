@@ -1,0 +1,27 @@
+#!/bin/execlineb -WS1
+
+foreground {
+	if -n { svup mpv }
+	sv o mpv
+}
+if {
+	importas HOME HOME
+	redirfd -w 2 /dev/null
+	succeed
+		redirfd -r 0 /dev/null
+		nc -NU ${HOME}/service/mpv/ipc.sock
+}
+forx f { ${@} }
+	importas -iu f f
+	ifelse { s6-test -f ${f} } {
+		backtick -in file {
+			backtick -in pwd { pwd }
+			importas -iu pwd pwd
+			cleanname -d${pwd} ${f}
+		}
+		importas -iu file file
+		s6-sleep -m 500 mpvc loadfile \"${file}\" append-play
+	}
+		backtick -in uri { urifix ${f} }
+		importas -iu uri uri
+		s6-sleep -m 500 mpvc loadfile \"${uri}\" append-play

@@ -1,0 +1,14 @@
+#!/bin/execlineb -W
+
+importas max 1
+shift
+elgetpositionals
+emptyenv -P
+
+backtick -in ms {
+	redirfd -r 0 /dev/null
+	awk -safe "BEGIN { srand() } END { print int(rand()*"${max}") }"
+}
+importas -iu ms ms
+s6-sleep -m ${ms}
+	${@}

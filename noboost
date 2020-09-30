@@ -1,0 +1,5 @@
+#!/bin/sh
+# \
+exec emptyenv -p jq -cf ${0} "${@}"
+#
+select(.reblog == null)

@@ -1,0 +1,9 @@
+#!/bin/execlineb -WP
+
+pipeline { asroot iw dev wlp2s0 scan }
+pipeline { grep SSID: }
+pipeline { sort }
+pipeline { uniq }
+loopwhilex
+	pipeline -w { redirfd -w 2 /dev/null fex {2:} }
+	read

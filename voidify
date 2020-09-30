@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS1
+
+export CFLAGS " -O2 -D_FORTIFY_SOURCE=2 -pipe -mtune=generic"
+export LDFLAGS " -Wl,-z,relro -Wl,-z,now -Wl,--as-needed"
+${@}

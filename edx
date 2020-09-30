@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS1
+
+forx -p f { ${@} }
+	importas -iu f f
+	foreground { mkx ${f} }
+	/usr/bin/background { sam ${f} }

@@ -1,0 +1,73 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+
+backtick -in root { lsw -r } importas -u root root
+backtick -in rootx { wattr w ${root} } importas -u rootx rootx
+backtick -in x { hoc -e ${rootx}"-510" } importas -u x x
+define y 10
+define where "500x400+"${x}"+"${y}
+
+backtick -in toot { read }
+
+ignore
+if -nt {
+	redirfd -w 1 /dev/null
+	redirfd -w 2 /dev/null
+	pipeline { printenv toot }
+	jq -Mce ".reblog // empty"
+}
+backtick -in pptoot {
+	pipeline { printenv toot }
+	pipeline { jq -Mrf ${HOME}/bin/mtl.jq }
+	htmlfmt -al75
+}
+backtick -in id {
+	pipeline { printenv toot }
+	jq -Mre ".status.id // .id // null"
+}
+importas -iu id id
+
+backtick -in action {
+	pipeline { printenv pptoot }
+	gxmessage -geometry ${where}
+		-name @copyleftie@liminalismo.com
+		-nofocus
+		-wrap
+		-buttons "[X]:0,rep:0,bst:0,star:0,[W]:0"
+		-print
+		-file -
+}
+importas -iu action action
+
+ifelse { s6-test ${action} = rep } {
+	backtick -in reply {
+		pipeline { printenv pptoot }
+		gxmessage -geometry ${where}
+			-name @copyleftie@liminalismo.com
+			-entry
+			-wrap
+			-file -
+	}
+	pipeline { printenv reply }
+		lmdon
+			post
+			--in-reply-to ${id}
+			--same-visibility
+			--stdin
+} ifelse { s6-test ${action} = bst } {
+	lmdon
+		st
+		-s${id}
+		boost
+} ifelse { s6-test ${action} = star } {
+	lmdon
+		st
+		-s${id}
+		favourite
+} ifelse { s6-test ${action} = [W] } {
+	s6-sudo -- ${HOME}/service/s6-sudo-web/sock
+		-n
+		https://liminalismo.com/web/statuses/${id}
+}
+	exit 0

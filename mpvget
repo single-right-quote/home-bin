@@ -1,0 +1,15 @@
+#!/bin/execlineb -WS1
+
+importas HOME HOME
+
+pipeline {
+	forx prop { ${@} }
+		importas -iu prop prop
+		pipeline {
+			foreground { echo -n command= }
+			jo -a get_property ${prop}
+		}
+		jo
+}
+	pipeline { nc -Uq1 ${HOME}/service/mpv/ipc.sock }
+	jq -Mr --unbuffered "select(has(\"event\") | not) | .data // ( .error | select(contains(\"success\") | not)) // ."

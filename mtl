@@ -1,0 +1,9 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+define mtl_jq ${HOME}/bin/mtl.jq
+pipeline { mdon stream -ojson }
+pipeline { jq -Mr --unbuffered -f ${mtl_jq} }
+loopwhilex
+pipeline -w { htmlfmt -a }
+read

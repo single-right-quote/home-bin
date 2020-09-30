@@ -1,0 +1,12 @@
+#!/bin/execlineb -WS0
+
+no9
+
+export PLAN9 /usr/lib/plan9
+
+importas PATH PATH
+export PATH ${PATH}:/usr/lib/plan9/bin
+
+exec
+/bin/pass
+	${@}

@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+if { cdparanoia -Bl }
+if { wav2flac }
+eject

@@ -1,0 +1,11 @@
+#!/bin/execlineb -WS0
+#
+# "cweb unsafe [that is to say, without Tor]"
+
+#export HTTP_PROXY http://localhost:8118/
+#export HTTPS_PROXY http://localhost:8118/
+define -s chromium "chromium --incognito --disable-hyperlink-auditing --disable-smooth-scrolling --disable-sync --disk-cache-dir=/tmp/eds/job-browser"
+
+redirfd -w 2 /dev/null
+${chromium} --incognito
+	${@}

@@ -1,0 +1,13 @@
+#!/bin/execlineb -WS0
+
+pipeline { /usr/lib/plan9/bin/du ${@} }
+	awk -safe
+"NR == 1 {
+	prev = substr($0, index($0, \"/\"), length($0) - index($0, \"/\"))
+	print
+}
+{
+	if (!index(prev, substr($0, index($0, \"/\"), length($0) - index($0, \"/\"))))
+		print
+	prev = substr($0, index($0, \"/\"), length($0) - index($0, \"/\"))
+}"

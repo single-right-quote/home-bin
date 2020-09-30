@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+importas -i TMPDIR TMPDIR
+elglob notifications ${TMPDIR}/notifs/*
+rm -f ${notifications}

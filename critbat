@@ -1,0 +1,43 @@
+#!/usr/bin/tcc -run
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+enum bool { FALSE=0, TRUE };
+
+const char *batt = "/sys/class/power_supply/BAT0/capacity";
+const int   low = 20;
+const int   crit = 10;
+const char *low_cmd = "zzz";
+const char *crit_cmd = "ZZZ";
+const int   delay = 60;
+
+int
+main(void) {
+	unsigned short cap;
+	FILE *f;
+	enum bool ignore_low = TRUE, ignore_crit = TRUE;
+
+	while ((f = fopen(batt, "r")) != NULL) {
+		fscanf(f, "%hu", &cap);
+		fclose(f);
+
+		if (!ignore_crit && cap <= crit) {
+			ignore_crit = TRUE;
+			system(crit_cmd);
+		} else if (!ignore_low && cap <= low) {
+			ignore_low = TRUE;
+			system(low_cmd);
+		} else {
+			if (cap > crit)
+				ignore_crit = FALSE;
+			if (cap > low)
+				ignore_low = FALSE;
+		}
+
+		sleep(delay);
+	}
+
+	perror("Can't read battery capacity");
+	exit(1);
+}

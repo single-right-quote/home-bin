@@ -1,0 +1,18 @@
+#!/bin/execlineb -W
+
+elgetopt au
+elgetpositionals -P1
+emptyenv -P
+
+forx term { ${@} }
+importas -iu term term
+pipeline { 
+	ifelse { s6-test -v ELGETOPT_a } {
+		tswordfs exec redirfd -r 0 service/profile/data/profile.json s6-cat
+	}
+		tswordfs exec redirfd -r 0 service/tl/data/tl.json s6-cat
+}
+	ifelse { s6-test ! -v ELGETOPT_a -a ! -v ELGETOPT_u } {
+		jq -c "select(.content != null) | select(.account.acct == \"copyleftie\" | not) | select(.content | contains(\""${1}\""))"
+	}
+		jq -c "select(.content != null) | select(.content | contains(\""${term}\""))"

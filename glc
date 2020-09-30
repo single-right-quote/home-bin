@@ -1,0 +1,3 @@
+#!/bin/execlineb -WP
+
+pipeline { git ls-files } mc

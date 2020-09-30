@@ -1,0 +1,13 @@
+#!/bin/execlineb -W
+# usgerr: signal an error by printing a usage statement
+#	hint: exec usgerr $progname $argspec
+
+importas progname 1 shift
+elgetpositionals -P1
+emptyenv -P
+
+foreground {
+	fdmove -c 1 2
+	s6-echo -- ${progname}: usage: ${progname} ${@}
+}
+exit 1

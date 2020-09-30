@@ -1,0 +1,13 @@
+#!/bin/execlineb -WP
+# volget - output the sndio(7) master volume as an integral percentage
+
+backtick -i -n mvol {
+	pipeline { aucatctl }
+		awk -F= "/^master/ { print $2 }"
+}
+importas -u mvol mvol
+
+backtick -i -n mvolf { hoc -e ${mvol}" * 100/127" }
+importas -u mvolf mvolf
+
+printf %3.0f ${mvolf}

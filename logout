@@ -1,0 +1,8 @@
+#!/bin/execlineb -WP
+
+importas USER USER
+redirfd -w 1 /dev/null
+pkill
+	-HUP
+	-xu${USER}
+	runsvdir

@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+pipeline { uname -r }
+	pipeline { sed "s@([0-9]+\\.[0-9]+\\.[0-9]+)_blackbox.*@\\1@" }
+	sed "s/\\.0$//"

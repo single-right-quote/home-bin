@@ -1,0 +1,13 @@
+#!/bin/execlineb -WP
+
+importas TMPDIR TMPDIR
+backtick -in f { s6-uniquename ${TMPDIR}/ }
+backtick -in pfw { pfw }
+multisubstitute {
+	importas -iu f f
+	importas -iu pfw pfw
+}
+
+cd ${TMPDIR}
+if { /bin/import -window ${pfw} ${f}.tiff }
+gnuimp ${f}.tiff

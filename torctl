@@ -1,0 +1,20 @@
+#!/bin/execlineb -WP
+# torctl: trivial netcat(1) wrapper for Tor control port communication
+
+pipeline {
+	if { s6-echo -n AUTHENTICATE" \"" }
+	if { pipeline { pass machine/blackbox/Tor } tr -d "\n" }
+	if { s6-echo \" }
+	read -m
+}
+	nc -CNn 127.0.0.1 9051
+
+# example usage: requesting a new identity
+#	{ echo "SIGNAL NEWNYM"; echo "QUIT" } | torctl
+#
+# alternatively, using torctl interatively:
+#
+#	% torctl
+#	SIGNAL NEWNYM
+#	QUIT
+#	^D% 

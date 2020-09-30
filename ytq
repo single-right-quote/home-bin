@@ -1,0 +1,13 @@
+#!/bin/execlineb -WS0
+
+importas TMPDIR TMPDIR
+
+foreground { sv u mpv }
+foreground {
+	loopwhilex -x0
+		s6-test -S ${TMPDIR}/mpv-eds.sock
+}
+
+forx v { ${@} }
+	importas -iu v v
+	mpvc loadfile \"${v}\" append-play

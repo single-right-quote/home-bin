@@ -1,0 +1,6 @@
+#!/bin/execlineb -WP
+
+backtick -in f { /bin/date +%Y/%m/%d/%T }
+importas -iu f f
+
+diary edit ${f}

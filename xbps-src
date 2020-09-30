@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS1
+
+torsocks
+no9
+./xbps-src -L
+	${@}

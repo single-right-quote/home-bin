@@ -1,0 +1,14 @@
+#!/bin/execlineb -W
+
+elgetopt nd
+elgetpositionals
+emptyenv -P
+
+backtick -I argument_to_search {
+	if { s6-test -v ELGETOPT_n }
+		s6-echo -n -- -n
+}
+importas -u argument_to_search argument_to_search
+
+search ${argument_to_search} --
+	"MDN "${@}

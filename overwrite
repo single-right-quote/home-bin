@@ -1,0 +1,44 @@
+#!/bin/execlineb -W
+# overwrite: filter a file in-place
+# overwrite [-n] [-v] file cmd [args]
+
+elgetopt nv
+backtick -in tmpfile { s6-uniquename /tmp/ }
+multisubstitute {
+	importas -iu tmpfile tmpfile
+	importas -i file 1
+	importas -i cmd 2
+}
+backtick -in perms { stat -c%a ${file} }
+importas -iu perms perms
+shift -n2
+elgetpositionals
+emptyenv -P
+
+trap -x {
+	1 { rm -f ${tmpfile} }
+	2 { rm -f ${tmpfile} }
+	15 { rm -f ${tmpfile} }
+}
+ifelse {
+	redirfd -w 1 ${tmpfile}
+	redirfd -r 0 ${file}
+	${cmd} ${@}
+} {
+	trap {
+		1 { true }
+		2 { true }
+		15 { true }
+	}
+	foreground { chmod ${perms} ${tmpfile} }
+	foreground { if { s6-test -v ELGETOPT_v -o -v ELGETOPT_n }
+			diff ${file} ${tmpfile}
+	}
+	ifelse -n { s6-test -v ELGETOPT_n } {
+		if { shred -uzn3 ${file} }
+		mv ${tmpfile} ${file}
+	}
+		rm ${tmpfile}
+}
+	foreground { rm -f ${tmpfile} }
+	error overwrite: ${file} unchanged

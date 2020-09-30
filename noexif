@@ -1,0 +1,15 @@
+#!/bin/execlineb -WS1
+
+
+importas TMPDIR TMPDIR
+if {
+	redirfd -w 2 /dev/null
+	mkdir -p ${TMPDIR}/noexif
+}
+forx -p f { ${@} }
+	importas -iu f f
+	backtick -in ff { basename ${f} }
+	importas -iu ff ff
+	define out ${TMPDIR}/noexif/${ff} #.tiff
+	foreground { s6-echo ${out} }
+	convert -strip ${f} ${out}

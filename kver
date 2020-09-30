@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { curl -s https://www.kernel.org/ }
+	hxselect -c "#latest_link a"

@@ -1,0 +1,21 @@
+#!/bin/execlineb -WS1
+# notice - show a message in a small 9term(1) which quits on input
+
+importas -D "/tmp" TMPDIR TMPDIR
+foreground { redirfd -w 2 /dev/null mkdir -p ${TMPDIR}/notifs }
+export NQDIR ${TMPDIR}/notifs
+
+backtick -in root { lsw -r } importas -u root root
+backtick -in rootx { wattr w ${root} } importas -u rootx rootx
+backtick -in x { hoc -e ${rootx}"-310" } importas -u x x
+define y 10
+define where "300x130+"${x}"+"${y}
+
+nq -q
+redirfd -w 2 /dev/null
+gxmessage -geometry ${where}
+	-buttons ""
+	-timeout 3
+	-nofocus
+	-wrap
+	${@}

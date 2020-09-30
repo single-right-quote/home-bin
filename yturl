@@ -1,0 +1,14 @@
+#!/bin/execlineb -W
+
+elgetopt v
+elgetpositionals
+emptyenv -P
+
+torsocks
+ifelse { s6-test -v ELGETOPT_v } {
+	emptyenv -c
+	xe -a /bin/yturl -q high -- ${@}
+}
+	emptyenv -c
+	redirfd -w 2 /dev/null
+	xe -a /bin/yturl -q high -- ${@}

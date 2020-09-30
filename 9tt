@@ -1,0 +1,10 @@
+#!/bin/execlineb -WP
+
+importas -iu text9term text9term
+backtick -in nonix {
+	pipeline { s6-echo ${text9term} }
+	fex !2
+}
+importas -iu sock nonix
+redirfd -r 0 /dev/null
+nc -Uq1 ${sock}

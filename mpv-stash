@@ -1,0 +1,29 @@
+#!/bin/execlineb -WP
+
+multisubstitute {
+	importas HOME HOME
+	importas TMPDIR TMPDIR
+}
+define statedir ${HOME}/service/mpv/state
+foreground {
+	redirfd -w 2 /dev/null
+	mkdir -p ${statedir}
+}
+elglob stuff ${statedir}/*
+foreground { rm -r ${stuff} }
+cd ${statedir}
+
+/bin/background {
+	redirfd -w 1 playlist
+	pipeline { mpvget playlist }
+		jq -Mr .[].filename
+}
+/bin/background {
+	redirfd -w 1 playlist-pos
+	mpvget playlist-pos
+}
+/bin/background {
+	redirfd -w 1 time-pos
+	mpvget time-pos
+}
+cp -r ${TMPDIR}/ytdlq ${statedir}

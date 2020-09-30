@@ -1,0 +1,21 @@
+#!/bin/execlineb -WP
+
+export PATH /usr/local/bin:/usr/bin:/usr/local/plan9/bin
+importas HOME HOME
+cd ${HOME}
+
+sudo -A
+	if { mount --bind void-musl void-musl } # some programs work incorrectly without this
+	if { cp -L /etc/resolv.conf void-musl/etc/resolv.conf } # for network
+	if { mount --rbind /proc void-musl/proc }
+	if { mount --rbind /sys void-musl/sys }
+	if { mount --rbind /dev void-musl/dev }
+	if { mount --rbind /run void-musl/run }
+
+	foreground {
+		torsocks
+		chroot ./void-musl
+			sh
+	}
+
+	umount -Rl void-musl

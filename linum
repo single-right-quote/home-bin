@@ -1,0 +1,3 @@
+#!/bin/execlineb -WS0
+
+pr -n -t ${@}

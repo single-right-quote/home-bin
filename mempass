@@ -1,0 +1,18 @@
+#!/bin/rc
+
+fn sigint {
+	stty echo
+}
+
+for (acct) {
+	if (pass=`{pass $acct}) {
+		echo -n $acct^': '
+		if (! cmp -s <{printenv pass} <{passread}) {
+			error '
+'^`{basename $0}^: incorrect
+			exec $0 $*
+		}
+	}
+	shift
+}
+status=''

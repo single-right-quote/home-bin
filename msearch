@@ -1,0 +1,23 @@
+#!/bin/execlineb -W
+
+elgetopt au
+elgetpositionals -P1
+emptyenv -P
+
+forx term { ${@} }
+importas -iu term term
+pipeline { 
+	ifelse { s6-test -v ELGETOPT_a } {
+#		swordfs exec redirfd -r 0 service/profile/data/profile.json s6-cat
+		madonctl account statuses --all
+	}
+#		swordfs exec redirfd -r 0 service/tl/data/tl.json s6-cat
+		madonctl timeline --limit 400
+}
+pipeline { jq .[] }
+	ifelse { s6-test ! -v ELGETOPT_a -a ! -v ELGETOPT_u } {
+		backick -in me { madonctl account show --template {{.id}} }
+		importas -iu me me
+		jq -c "select(.content != null) | select(.account.id != \""${me}"\") | select(.content | contains(\""${term}\""))"
+	}
+		jq -c "select(.content != null) | select(.content | contains(\""${term}\""))"

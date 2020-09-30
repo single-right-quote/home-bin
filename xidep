@@ -1,0 +1,10 @@
+#!/bin/execlineb -WS1
+
+forx p { ${@} }
+	importas -iu p p
+	pipeline {
+		foreground { echo -n ${p}": " }
+		xbps install -Sn ${p}
+	}
+		pipeline { sed "s/-[0-9\._]+.*$//" }
+		fmt -i5

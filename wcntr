@@ -1,0 +1,30 @@
+#!/bin/execlineb -WS1
+# wcntr - center the given window(s)
+
+backtick -in progname { basename ${0} }
+backtick -in rootx { wonr wattr w }
+backtick -in rooty { wonr wattr h }
+
+multisubstitute {
+	importas -u progname progname
+	importas -u rootx rootx
+	importas -u rooty rooty
+}
+
+forx -p w { ${@} }
+	importas -u w w
+	backtick -in winx { wattr w ${w} }
+	backtick -in winy { wattr h ${w} }
+	
+	multisubstitute {
+		importas -u winx winx
+		importas -u winy winy
+	}
+	backtick -in newx { hoc -e "("${rootx}"-"${winx}")/2" }
+	backtick -in newy { hoc -e "("${rooty}"-"${winy}")/2" }
+	
+	multisubstitute {
+		importas -u newx newx
+		importas -u newy newy
+	}
+	wtp ${newx} ${newy} ${winx} ${winy} ${w}

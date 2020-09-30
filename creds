@@ -1,0 +1,22 @@
+#!/bin/execlineb -WS1
+
+foreground { s6-echo -n "user: " }
+backtick -in user { read }
+
+foreground { s6-echo -n "pass: " }
+backtick -in pass {
+	foreground { stty -echo }
+	foreground { read }
+	foreground { stty echo }
+}
+foreground { s6-echo }
+
+multisubstitute {
+	importas -iu user user
+	importas -iu pass pass
+}
+pipeline { printf "%s\\0%s\\0" ${user} ${pass} }
+	emptyenv -c
+	fdmove -c 3 0
+	checkpassword
+	${@}

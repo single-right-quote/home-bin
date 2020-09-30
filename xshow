@@ -1,0 +1,4 @@
+#!/bin/rc
+
+for (p)
+	 xbps-query -R -S $p | cat

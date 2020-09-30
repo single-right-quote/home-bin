@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS1
+
+pipeline { pass ${@} }
+	type

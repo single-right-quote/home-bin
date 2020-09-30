@@ -1,0 +1,21 @@
+#!/bin/execlineb -WP
+
+export PATH /usr/local/bin:/usr/bin:/usr/local/plan9/bin
+importas HOME HOME
+cd ${HOME}
+
+sudo -A
+	if { mount --bind void-glibc void-glibc } # some programs work incorrectly without this
+	if { cp -L /etc/resolv.conf void-glibc/etc/resolv.conf } # for network
+	if { mount --rbind /proc void-glibc/proc }
+	if { mount --rbind /sys void-glibc/sys }
+	if { mount --rbind /dev void-glibc/dev }
+	if { mount --rbind /run void-glibc/run }
+
+	foreground {
+		torsocks
+		chroot ./void-glibc
+			rc
+	}
+
+	umount -Rl void-glibc

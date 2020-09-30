@@ -1,0 +1,14 @@
+#!/bin/execlineb -WS1
+
+importas HOME HOME
+cd ${HOME}/repo/void-packages
+
+forx p { ${@} }
+	importas -iu p p
+	elglob -w files ,*.*
+	awk -safe
+		"BEGIN { doit = 0 }
+		/^=> "${p}"/ { doit = 1 }
+		doit == 1 { print }
+		/^[0-9]+\\.[0-9]+u [0-9]+\\.[0-9]+s [0-9]+\\.[0-9]+r/ { doit = 0 }"
+		${files}

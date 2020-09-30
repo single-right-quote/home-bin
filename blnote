@@ -1,0 +1,10 @@
+#!/bin/rc
+
+switch (`{basename $0}) {
+case bl*
+	exec echo '%{c}Brightness:' `{blget} >$lbpipe
+case vol*
+	exec echo '%{c}Volume:' `{volget} >$lbpipe
+case *
+	echo `{basename $0}: unsupported get >[1=2]; exit 1
+}

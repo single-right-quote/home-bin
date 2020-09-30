@@ -1,0 +1,21 @@
+#!/bin/execlineb -WP
+
+sv d
+	dhcpcd
+	privoxy
+	tor
+#	tor-browser
+#	job-browser
+#	wire
+#	capport
+	ntpd
+	tswordfs-vpn
+	gajim
+	ii
+	ii2
+	ircmsg
+	ircmsg2
+	kver
+	mmsg
+	sfeed
+	dnscache

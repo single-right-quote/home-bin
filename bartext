@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+snooze -H* -M* -S/2
+pipeline { slstatus -s }
+	sed -l s/.*/%{c}&/

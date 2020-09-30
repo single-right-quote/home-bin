@@ -1,0 +1,14 @@
+#!/bin/execlineb -WS1
+
+importas TMPDIR TMPDIR
+forx f { ${@} }
+	backtick -in in { s6-uniquename ${TMPDIR}/ }
+	multisubstitute {
+		importas -iu f f
+		importas -iu in in
+	}
+	ifelse -n { mkfifo -m0600 ${in} } {
+		error gqgq: fatal: could not create FIFO ${in}
+	}
+	/usr/bin/background { redirfd -w 1 ${in} gpg -dq ${f} }
+	mpvq ${in}

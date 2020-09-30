@@ -1,0 +1,10 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+backtick -in onion { sed 1q ${HOME}/lib/onions.txt }
+importas -iu onion onion
+export PAGER less
+
+stcmd
+torsocks
+sacc ${onion}

@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS0
+
+xdotool
+	type
+		--clearmodifiers
+		--file -

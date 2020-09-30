@@ -1,0 +1,13 @@
+#!/bin/execlineb -WP
+
+# exit by way of window manager
+loopwhilex
+	foreground {
+		if { awd }
+		if {
+			redirfd -w 1 /dev/tty
+			s6-echo -n -- "% "
+		}
+		execlineb -WP /dev/tty
+	}
+	exit

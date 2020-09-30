@@ -1,0 +1,48 @@
+#!/bin/execlineb -W
+
+elgetopt t
+elgetpositionals
+emptyenv -P
+
+importas -i HOME HOME
+backtick -in account {
+	pipeline { pass git ls-files }
+	pipeline { sed -n "s/^\"?([^\"]+)\\.gpg\"?$/\\1/p" }
+	pipeline { sort -fi }
+	pipeline {
+		backtick -in accounts { s6-cat }
+		backtick -in pfw { pfw }
+		importas -iu pfw pfw
+		if -n {
+			redirfd -w 2 /dev/null
+			pipeline { printenv accounts }
+			dmenu -w ${pfw} -p "account: " -l 30 -i
+		}
+		pipeline { printenv accounts }
+		dmenu -p "account: " -l 30 -i
+	}
+	read
+}
+importas -iu account account
+
+# hack: we get weird firefox bugs that opening new windows fixes
+/bin/background {
+	redirfd -w 1 /dev/null
+	redirfd -w 2 /dev/null
+	9term
+		s6-sleep -m 256
+		s6-true
+}
+
+pipeline {
+	redirfd -w 2 /dev/null
+	pass show -- ${account}
+}
+pipeline { tr -d "\n" }
+	ifelse -n { s6-test -v ELGETOPT_t } {
+		trap -t 45000 { timeout { importas -iu ! ! /bin/kill ${!} } }
+			redirfd -w 2 /dev/null
+			xclip -quiet -l 1 -r -selection clipboard
+	}
+		s6-sleep -m 500
+		xdotool type --clearmodifiers --file -

@@ -1,0 +1,12 @@
+#!/bin/execlineb -WS1
+
+backtick -in progname { basename ${0} } importas -u progname progname
+ifelse { test ${progname} = xmakei } {
+	forx p { ${@} }
+		importas -u p p
+		foreground { no9 ./xbps-src -Lf pkg ${p} }
+		xi -yf ${p}
+} #else
+	forx p { ${@} }
+		importas -u p p
+		no9 ./xbps-src -Lf pkg ${p}

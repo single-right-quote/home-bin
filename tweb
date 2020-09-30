@@ -1,0 +1,15 @@
+#!/bin/execlineb -W
+
+elgetopt n
+elgetpositionals
+emptyenv -P
+
+forx -p onion { ${@} }
+	importas -iu onion onion
+	backtick -in hostname { sudo -utor cat /var/lib/tor/${onion}/hostname }
+	importas -iu hostname hostname
+	ifelse { s6-test -v ELGETOPT_n }
+	{
+		web -n http://${hostname}/
+	}
+		web http://${hostname}/

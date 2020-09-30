@@ -1,0 +1,8 @@
+#!/bin/execlineb -W
+
+importas -i status 1
+shift
+elgetpositionals
+emptyenv -Pc
+
+mdon post --in-reply-to ${status} --stdin ${@}

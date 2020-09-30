@@ -1,0 +1,12 @@
+#!/home/me/plan9/bin/rc
+
+switch (`{basename $0}) {
+case *down
+	arg='-U'
+case *up
+	arg='-A'
+case *
+	echo `{basename $0}: unsupported delta >[1=2]; exit 1
+}
+
+exec light $arg 1

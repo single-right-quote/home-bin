@@ -1,0 +1,9 @@
+#!/bin/execlineb -WS1
+
+forx p { ${@} }
+	importas -u p p
+	pipeline { xfile ${p} }
+		pipeline { awk -F/ "/\\/bin\\// { print $4 }" }
+		pipeline { awk "{ print $1 }" }
+		pipeline { sort }
+		fmt -i5

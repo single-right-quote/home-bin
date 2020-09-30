@@ -1,0 +1,8 @@
+#!/bin/execlineb -WP
+
+export TERM xterm-256color
+
+no9
+st
+	-n nyx
+	/bin/nyx

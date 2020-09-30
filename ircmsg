@@ -1,0 +1,31 @@
+#!/bin/execlineb -WP
+# notice - show a message in a small 9term(1) which quits on input
+
+importas HOME HOME
+
+backtick -in root { lsw -r } importas -u root root
+backtick -in rootx { wattr w ${root} } importas -u rootx rootx
+backtick -in x { hoc -e ${rootx}"-460" } importas -u x x
+define y 10
+define where "450x400+"${x}"+"${y}
+
+foreground {
+	redirfd -w 2 /dev/null
+	backtick -in pid {
+		pipeline { pgrep -ax gxmessage }
+		awk -safe "$2 == \"ircmsg\" { print $1 }"
+	}
+	importas -iu pid pid
+	/bin/kill ${pid}
+}
+
+pipeline { cut -d" " -f2- ${HOME}/chat/out }
+pipeline { s6-tail }
+	redirfd -w 1 ${HOME}/chat/in
+	emptyenv -c
+	chpst -bircmsg
+	gxmessage -geometry ${where}
+		-nofocus
+		-entry
+		-wrap
+		-file -

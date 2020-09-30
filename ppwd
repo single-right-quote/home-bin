@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+importas -u USER USER
+pipeline { pwd }
+	sed "s|/home/"${USER}"|~|"

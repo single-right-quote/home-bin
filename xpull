@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+importas home home
+cd ${home}/repo/void-packages
+git pull -q --no-edit

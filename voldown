@@ -1,0 +1,12 @@
+#!/home/me/plan9/bin/rc
+
+switch (`{basename $0}) {
+case *up
+	delta='+ 2'
+case *down
+	delta='- 2'
+case *
+	echo `{basename $0}: unsupported volume delta >[1=2]; exit 1
+}
+
+exec aucatctl 'master='^`{hoc -e '('^`{volget}^$delta^') * 127/100'} >/dev/null

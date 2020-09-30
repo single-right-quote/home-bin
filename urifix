@@ -1,0 +1,17 @@
+#!/bin/execlineb -WS1
+
+forx uri { ${@} }
+	importas -u uri uri
+	backtick -in candidate {
+		pipeline { curl -w "%{url_effective}" -ILs ${uri} }
+		pipeline { xurls }
+		tail -1
+	}
+	ifelse {
+		redirfd -w 1 /dev/null
+		importas -iu candidate candidate
+		isurl ${candidate}
+	} {
+		printenv candidate
+	}
+		echo ${uri}

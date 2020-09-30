@@ -1,0 +1,21 @@
+#!/bin/execlineb -WS1
+
+ifelse { test ${#} -eq 2 } {
+	mans ${2}
+}
+
+elglob -w skarnet /usr/share/doc/s6*
+backtick -in orf {
+	forx f { ${skarnet} }
+		importas -iu f f
+		echo -n -o -e ${f}/${1}.html "" # hmm
+}
+importas -isu orf orf
+
+if { test -e /usr/share/doc/execline/${1}.html ${orf} }
+	forx f { /usr/share/doc/execline ${skarnet} }
+		importas -iu f f
+		define cmd ${f}/${1}.html
+		if -t { test -e ${cmd} }
+			pipeline { htmlfmt -l70 ${cmd} }
+				sed "s/^/     /"

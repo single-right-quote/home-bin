@@ -1,0 +1,13 @@
+#!/bin/execlineb -WS0
+
+backtick -in pfw { pfw }
+importas -iu pfw pfw
+pipeline {
+	/bin/xev
+		-event keyboard
+		-id ${pfw}
+		${@}
+}
+	awk -safe "/\(keysym 0x[0-9a-f]+, ([^ ]+)\)/ {
+		print substr($7, 1, index($7, \")\")-1)
+	}"

@@ -1,0 +1,31 @@
+#!/bin/execlineb -WP
+
+multisubstitute {
+	importas HOME HOME
+	importas TMPDIR TMPDIR
+}
+cd ${HOME}/lib/mpv-stash
+
+foreground { mpvc loadlist ${HOME}/lib/mpv-stash/playlist }
+
+# foreground {
+# 	export NQDIR ${TMPDIR}/ytdlq
+# 	foreground { redirfd -w 2 /dev/null mkdir -p ${TMPDIR}/ytdlq }
+# 
+# 	pipeline { ls -F ytdlq }
+# 	pipeline { awk -safe "BEGIN { doit = 0 }\n/\\*$/ { doit = 1 }\ndoit == 1 { print }" }
+# 	# you could just do this in awk but whatever
+# 	pipeline { sed -l "1s/\\*$//" }
+# 		xe sh
+# }
+
+backtick -in pos { cat playlist-pos }
+importas -iu pos pos
+s6-sleep -m 500
+foreground { mpvset playlist-pos ${pos} }
+
+backtick -in time { cat time-pos }
+importas -iu time time
+s6-sleep -m 500
+mpvc seek ${time} absolute
+

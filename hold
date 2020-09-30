@@ -1,0 +1,6 @@
+#!/bin/execlineb -S1
+# hold - print the output of a command, and wait for input before exiting
+
+redirfd -w 2 /dev/null
+foreground { ${@} }
+s6-sleep 3

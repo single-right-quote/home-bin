@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { mpvget metadata }
+	jq -Mr --unbuffered "[.artist //.ARTIST // .author // .AUTHOR // \"[no artist]\", .album // .ALBUM // \"[no album]\", .title // .TITLE // \"[no title]\"] | join(\" - \")"

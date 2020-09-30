@@ -1,0 +1,8 @@
+#!/bin/execlineb -WP
+
+emptyenv -p
+emptyenv -c
+cd /var/service/critbat
+s6-envdir ./env
+./batt
+printenv batt

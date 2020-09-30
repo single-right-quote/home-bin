@@ -1,0 +1,19 @@
+#!/bin/execlineb -W
+
+elgetopt n
+elgetpositionals
+emptyenv -P
+
+backtick -I argument_to_web {
+	if { s6-test -v ELGETOPT_n }
+		s6-echo -n -- -n
+}
+importas -u argument_to_web argument_to_web
+
+forx -p package { ${@} }
+	importas -iu package package
+
+	backtick -in url { xurl ${package} }
+	importas -iu url url
+
+	web ${argument_to_web} -- ${url}

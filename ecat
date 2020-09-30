@@ -1,0 +1,8 @@
+#!/bin/execlineb -WS1
+
+forx f { ${@} }
+	importas -iu f f
+	if { s6-echo -- ==>" "${f}" "<== }
+	redirfd -r 0 /dev/tty
+	redirfd -w 1 ${f}
+	s6-cat

@@ -1,0 +1,8 @@
+#!/bin/execlineb -WS0
+
+importas HOME HOME
+redirfd -w 1 /dev/null
+hsetroot
+	-solid "#4d4d4d"
+	-fill ${HOME}/service/xinitrc/data/chr-no-bg.png
+	${@}

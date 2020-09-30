@@ -1,0 +1,3 @@
+#!/bin/execlineb -WP
+
+git ls-files

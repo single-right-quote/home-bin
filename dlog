@@ -1,0 +1,16 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+backtick -in files {
+	pipeline {
+		cd ${HOME}/.password-store/diary
+		find . -name *.gpg
+	}
+	pipeline { sed "s@./(.*)\\.gpg@\\1@" }
+	sort
+}
+importas -isu files files
+forx f { ${files} }
+	importas -iu f f
+	foreground { s6-echo "\n"==>" "${f}" "<== }
+	diary ${f}

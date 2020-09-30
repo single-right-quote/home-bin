@@ -1,0 +1,11 @@
+#!/bin/execlineb -WS0
+
+/usr/bin/dmenu
+	-f
+	-i
+	-nb "#ffffff"
+	-nf "#000000"
+	-sb "#eaed8d"
+	-sf "#000000"
+	-fn "Inconsolata"
+	${@}

@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS0
+
+importas HOME HOME
+export PASSWORD_STORE_DIR ${HOME}/.password-store/store
+pass
+	${@}

@@ -1,0 +1,4 @@
+#!/bin/rc
+
+for (p)
+	urifix `{xshow $p | awk '/homepage/ { print $2 }'}

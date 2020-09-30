@@ -1,0 +1,6 @@
+#!/bin/execlineb -WP
+
+importas TMPDIR TMPDIR
+pipeline { ls -t ${TMPDIR}/notifs }
+pipeline { xe read }
+sed "s@exec nq -q redirfd -w 2 /dev/null gxmessage -geometry [^ ]+ -buttons  -timeout [^ ]+ -nofocus -wrap @@"

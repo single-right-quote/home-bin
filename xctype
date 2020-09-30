@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { xclip -selection clipboard -o }
+	type

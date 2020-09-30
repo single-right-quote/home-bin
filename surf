@@ -1,0 +1,8 @@
+#!/bin/execlineb -WS0
+
+export HTTPS_PROXY http://localhost:8118
+export HTTP_PROXY http://localhost:8118
+no9
+/bin/surf
+	-bdgmnpsu"Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0"
+	${@}

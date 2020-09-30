@@ -1,0 +1,7 @@
+#!/bin/execlineb -WS1
+# wonf - execute a command ON the Focused window
+#	hint: wmutils(1)
+
+backtick -i -n pfw { pfw }
+importas -u pfw pfw
+${@} ${pfw}

@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS1
+
+loopwhilex
+	pipeline { foreground { read -n1 } echo }
+		torsocks
+		nc ${1} 70

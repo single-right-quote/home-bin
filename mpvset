@@ -1,0 +1,13 @@
+#!/bin/execlineb -WS2
+
+importas HOME HOME
+
+pipeline {
+	pipeline {
+		foreground { echo -n command= }
+		jo -a -- set -s ${1} -s ${2}
+	}
+		jo
+}
+	pipeline { nc -Uq1 ${HOME}/service/mpv/ipc.sock }
+	jq -Mr "select(has(\"event\") | not) | .data // .error"

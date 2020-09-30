@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS0
+
+pipeline { nts ${@} }
+p -7

@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS0
+
+importas HOME HOME
+mk LD=musl-gcc DESTDIR=${HOME} PREFIX=prefix ${@}

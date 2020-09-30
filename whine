@@ -1,0 +1,3 @@
+#!/bin/execlineb -WP
+
+web -n https://freeradical.zone/web/statuses/101124780897422935

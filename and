@@ -1,0 +1,4 @@
+#!/home/me/plan9/bin/rc
+
+$* &
+exit 0

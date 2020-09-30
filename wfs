@@ -1,0 +1,11 @@
+#!/bin/rc
+# wfs - fullscreen the given window(s)
+
+if (~ $#* 0)
+	exec usgerr `{basename $0} wid1 [wid2 ...]
+
+# wmutils(1)
+rhw=`{wonr wattr wh}
+for (w)
+	wtp 0 0 $rhw(1) $rhw(2) $w
+

@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS0
+
+st
+	-n htop
+	-e /usr/bin/htop ${@}

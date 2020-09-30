@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS0
+
+pipeline { mdon account follow -ojson ${@} }
+	jq -Mre --unbuffered "([.display_name, .acct] // null) | join(\" - \")"

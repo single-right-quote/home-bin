@@ -1,0 +1,15 @@
+#!/bin/rc
+
+exec execlineb -WS0 -c'
+importas TMPDIR TMPDIR
+importas XDG_CONFIG_HOME XDG_CONFIG_HOME
+export XDG_CONFIG_HOME ${TMPDIR}
+foreground { cp -r ${XDG_CONFIG_HOME}/mps-youtube ${TMPDIR} }
+
+st
+	-n mps-youtube
+	-e
+		torsocks
+		emptyenv -c
+		/usr/bin/mpsyt ${@}
+' -- $"*

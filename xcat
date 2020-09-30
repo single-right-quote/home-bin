@@ -1,0 +1,3 @@
+#!/bin/execlineb -WS2
+
+xbps-query -R --cat ${1} ${2}

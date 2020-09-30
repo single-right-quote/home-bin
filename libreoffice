@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS0
+
+no9
+redirfd -w 2 /dev/null
+/usr/lib/libreoffice/program/oosplash
+	${@}

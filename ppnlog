@@ -1,0 +1,6 @@
+#!/bin/execlineb -WP
+
+pipeline { notelog }
+pipeline { tac }
+pipeline { linum }
+tac

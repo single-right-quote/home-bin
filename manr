@@ -1,0 +1,22 @@
+#!/bin/execlineb -WS1
+
+backtick -in progname { basename ${0} }
+multisubstitute {
+	importas -u progname progname
+	importas -u tmp tmp
+}
+
+ifelse { test ${#} -eq 2 } {
+	manr ${2}
+} ifelse { test ${#} -gt 1 } {
+	usgerr ${progname} [section] manpage
+} #else
+	foreground {
+		redirfd -w 2 ${tmp}/manr
+		no9 xmandoc ${@}
+	}
+	ifelse { grep -s "No entry" ${tmp}/manr } {
+		foreground { rm ${tmp}/manr }
+		exit 1
+	}
+		rm ${tmp}/manr

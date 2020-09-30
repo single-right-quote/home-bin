@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+importas TMPDIR TMPDIR
+
+adb -d pull /storage/emulated/legacy/"S Memo" ${TMPDIR}

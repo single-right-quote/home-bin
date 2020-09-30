@@ -1,0 +1,23 @@
+#!/bin/execlineb -W
+
+elgetopt n
+elgetpositionals
+emptyenv -P
+
+backtick -I argument_to_web {
+	if { s6-test -v ELGETOPT_n }
+		s6-echo -n -- -n
+}
+importas -u argument_to_web argument_to_web
+
+forx -p search_term { ${@} }
+	importas -iu search_term search_term
+
+	backtick -in uri_encoded_search_term {
+		pipeline { s6-echo -n -- ${search_term} }
+		urlencode
+	}
+	importas -iu uri_encoded_search_term uri_encoded_search_term
+
+	web ${argument_to_web} --
+		"https://3g2upl4pq6kufc4m.onion/?q="${uri_encoded_search_term}

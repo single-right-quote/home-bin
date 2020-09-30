@@ -1,0 +1,8 @@
+#!/bin/execlineb -WS1
+
+backtick -in status {
+	pipeline { sv s ${1} }
+	fex 1
+}
+importas -iu status status
+s6-test \\\\${status} = run:

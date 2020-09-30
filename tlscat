@@ -1,0 +1,12 @@
+#!/bin/execlineb -W
+
+importas -D /etc/ssl/certs certificate_directory CADIR
+importas -D 443 port 2
+importas -i host 1
+emptyenv -P
+
+export CADIR ${certificate_directory}
+s6-tlsclient
+	${host}
+	${port}
+		s6-ioconnect

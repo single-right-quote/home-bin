@@ -1,0 +1,46 @@
+#!/bin/rc
+# album - commands an existing mpv(1) to play an album from the filesystem.
+#	this command expects ASCIInumerically sorted FLACs organized
+#	in the structure $home/music/$artist/$album/$track
+#
+#	an mpv is expected to be running with JSON IPC enabled (see mpvq)
+
+flag e +
+
+sv u mpv
+
+ls=(`{9 which ls} -p -Q)
+dmenu=('dmenu' '-i' '-l' '30')
+
+fn play {
+	if (! test -d $1)
+		exit 1
+
+	cd $1
+	for (f in *.flac *.mp3 *.opus *.m4a *.ogg) {
+		if (s6-test -f $"f) {
+			echo mpvq $"f
+			mpvq $"f >[2]/dev/null
+			#s6-sleep -m 100
+		}
+	}
+}
+
+fn get_album {
+	if (! test -d $1)
+		exit 1
+	
+	album=`{ { $ls $1; echo '<< [back]' } | $dmenu -p 'Album:' | read}
+	if (! ~ $status '')
+		exit 1
+	if (~ $album '<< [back]')
+		exec $0
+
+	play $1/$"album
+}
+
+artist=`{$ls $home/song | $dmenu -p 'Artist:' | read}
+if (! ~ $status '')
+	exit 1
+if not
+	get_album $home/song/$"artist

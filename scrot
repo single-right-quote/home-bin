@@ -1,0 +1,10 @@
+#!/bin/execlineb -WP
+
+importas -D "/tmp" TMPDIR TMPDIR
+backtick -in f { s6-uniquename ${TMPDIR}/ }
+importas -iu f f
+
+cd ${TMPDIR}
+emptyenv -c
+if { /bin/import -window root ${f}.tiff }
+gnuimp ${f}.tiff

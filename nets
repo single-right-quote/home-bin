@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+pipeline { wpa_cli list_networks }
+pipeline { awk -safe -F"\\t" -v "OFS=\\t" "NR > 2 { print $2, $4 }" }
+column -ts"\t"

@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS1
+
+s6-sudo -- /etc/sv/s6-sudo-power/sock
+${@}

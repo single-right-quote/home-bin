@@ -1,0 +1,26 @@
+#!/bin/execlineb -W
+
+elgetopt u:
+importas -iu api_uri ELGETOPT_u
+elgetpositionals
+emptyenv -P
+
+backtick -in base_uri { redirfd -w 2 /dev/null madonctl instance --template {{.uri}} }
+backtick -in instance { pipeline { printenv config } fex /2 }
+multisubstitute {
+	importas TMPDIR TMPDIR
+	importas -iu base_uri base_uri
+	importas -iu instance instance
+}
+define fifo ${TMPDIR}/cdon-${instance}.fifo
+
+if { ffifo -m0600 -- ${fifo} }
+/bin/background {
+	redirfd -w 1 ${fifo}
+	if { printf "Authorization: Bearer " }
+	pass social/fedi/dev/${instance}/cURL/access_token
+}
+curl
+	-NsH@${fifo}
+	${@}
+	https://${base_uri}/api/v1/${api_uri}

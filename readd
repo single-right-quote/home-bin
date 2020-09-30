@@ -1,0 +1,6 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+cd ${HOME}/service/ssh-add
+redirfd -w 1 supervise/control
+printf a

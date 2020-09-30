@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { doas iw dev wlp2s0 scan }
+	awk "/SSID/ { print $2 }"

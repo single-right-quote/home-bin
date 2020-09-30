@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS0
+
+sam
+	-d
+	${@}

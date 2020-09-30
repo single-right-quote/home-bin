@@ -1,0 +1,34 @@
+#!/bin/execlineb -WS0
+# /usr/bin/svlogtail translated into execline
+# 
+# Without args, show current logs of all services, uniquely
+# With args, show all logs of mentioned services
+
+define socklog /var/log/socklog
+ifelse { test ${#} -eq 0 }
+{
+	elglob -0 logs ${socklog}/*/current
+	pipeline {
+		foreground { sort -u ${logs} }
+		pipeline { tail -Fq -n0 ${logs} } uniq
+	} s6-tai64nlocal
+} #else
+	if {
+		forx -o0 log { ${socklog}/${@} }
+			importas -u log log
+			if -nt { test -d ${log} }
+				fdmove -c 1 2
+				foreground { echo no logs for ${log} }
+				exit 1
+	} #then
+		pipeline {
+			foreground {
+				pipeline {
+					forx -p log { ${socklog}/${@} }
+						importas -u log log
+						elglob -0 old ${log}/*.[su]
+						cat ${old} ${log}/current
+				} sort
+			}	
+			tail -Fq -n0 ${socklog}/${@}/current
+		} s6-tai64nlocal

@@ -1,0 +1,34 @@
+#!/bin/execlineb -WS0
+# /usr/bin/dmenu_run translated into execline
+
+backtick -in cmd {
+	pipeline { dmenu_path }
+	pipeline {
+		foreground {
+			backtick -in dmenu_path { s6-cat }
+			if -n {
+				pipeline { printenv dmenu_path }
+				redirfd -w 2 /dev/null
+				backtick -in pfw { pfw }
+				importas -iu pfw pfw
+				dmenu -w ${pfw} ${@}
+			}
+				pipeline { printenv dmenu_path }
+				dmenu ${@}
+		}
+		# hack: we get weird firefox bugs that opening new windows fixes
+		/bin/background {
+			redirfd -w 1 /dev/null
+			redirfd -w 2 /dev/null
+			9term
+				s6-sleep -m 256
+				6-true
+		}
+	}
+	read
+}
+pipeline {
+	pipeline { printenv cmd }
+		sed -l "s/$/\\&/"
+}
+	rc

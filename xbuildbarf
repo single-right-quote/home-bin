@@ -1,0 +1,9 @@
+#!/bin/execlineb -WS0
+# xbuildbarf [ARCH] - spy on current buildbot output
+
+ifelse { test ${#} -eq 0 } {
+	backtick -in arch { xbps-uhelper arch }
+	importas -iu arch arch
+	${0} ${arch}
+}
+	curl -Ls http://build.voidlinux.org/builders/${1}_builder/builds/-1/steps/shell_3/logs/stdio/text

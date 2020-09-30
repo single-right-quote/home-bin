@@ -1,0 +1,41 @@
+#!/bin/rc
+# munlock - set up Maildir environment, leaving no (unencrypted) trace of mail
+#	and credentials on disk (excepting syslog(3)) unless specifically
+#	requested, making sure not to overwrite any files 
+
+flag e +
+
+for (b in $inbox $outbox) {
+	for (d in new cur tmp) {
+		f=$b^/$d {
+			test -e $f || {
+				mkdir -p $f
+				chmod 0700 $f
+			}
+		}
+	}
+	chmod 0700 $b
+}
+
+## dma(1)
+test -e /tmp/dma/auth.conf || {
+	mkdir /tmp/dma
+	succeed gpg --yes -q -d -o /tmp/dma/auth.conf $home/lib/.dma.auth.conf.gpg
+	doas chown :mail /tmp/dma/auth.conf
+}
+
+## mblaze(1) , mblaze-profile(5)
+mkdir -p $MBLAZE
+test -e /tmp/.mblaze/profile || {
+	succeed gpg --yes -q -d -o $MBLAZE/profile $home/lib/.mblaze.profile.gpg
+	chmod 0600 $MBLAZE/profile
+}
+# mcom(1) throws lots of errors without this
+test -e $MBLAZE/seq || {
+	touch $MBLAZE/seq
+	chmod 0600 $MBLAZE/seq
+}
+test -e $MBLAZE/signature || {
+	succeed gpg --yes -q -d -o $MBLAZE/signature $home/lib/.mblaze.signature.gpg
+	chmod 0600 $MBLAZE/signature
+}

@@ -1,0 +1,5 @@
+#!/usr/lib/plan9/bin/sed -nf
+# plan 9–specific syntax
+# for coreutils sed, prepend the parentheses with a backslash
+
+/^link:/s/.*<.*(\?.*)>; rel="next",.*/\1/p

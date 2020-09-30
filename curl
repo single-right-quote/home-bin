@@ -1,0 +1,6 @@
+#!/bin/execlineb -WS1
+
+export ALL_PROXY socks5h://127.0.0.1:9150
+/bin/curl
+	-q
+	${@}

@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { fmt -jl78 }
+sed "s/^/# /"

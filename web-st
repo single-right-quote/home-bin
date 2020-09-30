@@ -1,0 +1,20 @@
+#!/bin/execlineb -WS1
+
+forx -p id { ${@} }
+	importas -iu id id
+	forx -p ac { a c s }
+		importas -iu ac ac
+		${ac}
+		if -n {
+			redirfd -w 1 /dev/null
+			pipeline {
+				mdon
+					st -i${id}
+						cat
+			}
+			jq .error
+		}
+			importas fedi_account fedi_account
+			backtick -in base_uri { pass social/fedi/dev/${fedi_account}/base_uri }
+			importas -iu base_uri base_uri
+			web ${base_uri}/web/statuses/${id}

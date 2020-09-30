@@ -1,0 +1,4 @@
+#!/bin/rc
+
+for (p)
+	xshow $p | awk '/installed_size/ { print "'^$p^'", $2 } '

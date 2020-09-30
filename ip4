@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { ip address }
+	awk "/inet/ && !/inet6/ { print $2 }"

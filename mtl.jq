@@ -1,0 +1,1 @@
+select(.reblog == null) | ((select(.type == null) | [( [.account.display_name, (["(@", .account.acct, ")"] | join(""))] | join (" - ")), .spoiler_text, .content] ) // [( [.account.display_name, (["(@", .account.acct, ")"] | join(""))] | join (" - ")), .type, .status.spoiler_text, .status.content]) | join("<br />")

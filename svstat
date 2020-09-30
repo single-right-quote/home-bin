@@ -1,0 +1,17 @@
+#!/bin/execlineb -WS0
+
+backtick -in progname { basename ${0} }
+multisubstitute {
+	importas home home
+	importas -u USER USER
+	importas -u progname progname
+	elglob -0 systems /var/service/*
+}
+elglob -0 homes ${home}/service/*
+
+pipeline {
+	foreground { if { test ${progname} = svstat } sv s ${systems} }
+	sv s ${homes}
+}
+	pipeline { awk "/^run/ { printf \"%s %s\\n\", \$2, \$5 }" }
+	sed "s/[:;,]//g; s|/var/service/||; s|/home/"${USER}"/service/||"

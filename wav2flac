@@ -1,0 +1,12 @@
+#!/bin/execlineb -WP
+
+define -s flac "flac -s -V --delete-input-file --keep-foreign-metadata --best"
+define ext .cdda.wav
+elglob -w files *${ext}
+
+forx -p f { ${files} }
+	importas -iu f f
+	backtick -in out { basename ${f} ${ext} }
+	importas -iu out out
+	
+	${flac} -o ${out}.flac ${f}

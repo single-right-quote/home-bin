@@ -1,0 +1,13 @@
+#!/bin/execlineb -WP
+
+importas HOME HOME
+cd ${HOME}/dvd
+
+qemu-system-x86_64
+	-enable-kvm
+	-cdrom obsd-install64.iso
+	-drive file=obsd-current.qcow2,media=disk,if=virtio
+	-m 2048
+	-smp 2
+	-nic user,model=virtio
+	-vga cirrus

@@ -1,0 +1,10 @@
+#!/bin/execlineb -WS0
+
+redirfd -w 1 /dev/null
+/bin/tabbed
+	-c
+	-u "#eaffff"
+	-U "#000000"
+	-t "#ffffea"
+	-T "#000000"
+	${@}

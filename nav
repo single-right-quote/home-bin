@@ -1,0 +1,3 @@
+#!/bin/execlineb -WP
+
+echo https://review.intern.facebook.com/intern/review/langtech_transcription/compositional_annotated_data

@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS1
+
+unexport HTTP_PROXY
+unexport HTTPS_PROXY
+${@}

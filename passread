@@ -1,0 +1,5 @@
+#!/bin/execlineb -WP
+
+foreground { stty -echo }
+foreground { read }
+stty echo

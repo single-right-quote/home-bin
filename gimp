@@ -1,0 +1,4 @@
+#!/bin/execlineb -WS0
+
+foreground { s6-echo gnuimp ${@} }
+error gimp: fatal: named in poor taste

@@ -1,0 +1,3 @@
+#!/bin/rc
+
+exec no9 `{defwhich mcom}

@@ -1,0 +1,11 @@
+#!/bin/execlineb -WS1
+
+pipeline {
+	importas HOME HOME
+	asroot
+	extrace
+	s6-setuidgid me
+	s6-envdir ${HOME}/lib/env
+	${@}
+}
+sed -l 1,4d

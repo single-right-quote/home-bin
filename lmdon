@@ -1,0 +1,9 @@
+#!/bin/execlineb -WS1
+
+importas HOME HOME
+define -s madonctl "/usr/bin/madonctl --config "${HOME}"/lib/config/madonctl/liminalismo.yaml"
+
+emptyenv -c
+torsocks
+${madonctl}
+	${@}

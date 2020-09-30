@@ -1,0 +1,5 @@
+#!/bin/execlineb -WS1
+
+export PLAN9 /usr/lib/plan9
+/usr/lib/plan9/bin/man	
+	${@}

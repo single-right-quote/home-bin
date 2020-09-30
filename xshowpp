@@ -1,0 +1,9 @@
+#!/bin/rc
+
+if (~ $#* 0)
+	exec usgerr `{basename $0} pkg1 [pkg2 ...]
+
+{ for (p)
+	xbps-query -R -S $p |
+		awk -F': ' '/: / && NF>1 { print "'^$p^'", "!", $1, "!", $2 }'
+} | column -t -s '!'

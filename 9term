@@ -1,0 +1,25 @@
+#!/usr/bin/execlineb -WS0
+
+multidefine "740 440" { w h }
+
+backtick -i -n root { lsw -r }
+multisubstitute {
+	importas PLAN9 PLAN9
+	importas -iu root root
+}
+
+backtick -in rootx { wattr w ${root} }
+backtick -in rooty { wattr h ${root} }
+multisubstitute {
+	importas -iu rootx rootx
+	importas -iu rooty rooty
+}
+
+backtick -in x { hoc -e "("${rootx}"-"${w}")/2" }
+backtick -in y { hoc -e "("${rooty}"-"${h}")/2" }
+multisubstitute {
+	importas -iu x x
+	importas -iu y y
+}
+
+/usr/lib/plan9/bin/9term -W ${w}x${h}@${x},${y} ${@}

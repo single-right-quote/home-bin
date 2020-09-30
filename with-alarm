@@ -1,0 +1,11 @@
+#!/bin/execlineb -WS1
+# `with-alarm program [arguments ...]`
+# runs the command line specified by `program` and any optional arguments, and nearly immediately sends SIGALRM
+
+trap -t 256 {
+	timeout {
+		importas -iu ! !
+		/bin/kill -s ALRM ${!}
+	}
+}
+${@}

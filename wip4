@@ -1,0 +1,4 @@
+#!/bin/execlineb -WP
+
+pipeline { ip address }
+	ssam -n "x/[0-9]+: w[^:]+:.*\\n(  +.*\\n)+/ x/  +inet [^ ]+ / x/[0-9\\.\\/]+ / p"
